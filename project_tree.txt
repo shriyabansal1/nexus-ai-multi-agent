@@ -1,0 +1,156 @@
+Folder PATH listing for volume Windows
+Volume serial number is 00000015 C2C0:C2DC
+C:.
+¦   college.db
+¦   company.db
+¦   config.py
+¦   create_databases.py
+¦   day1_main.py
+¦   inventory.db
+¦   main.py
+¦   project_tree.txt
+¦   requirements.txt
+¦   sales.db
+¦   test.txt
+¦   
++---.vscode
+¦       launch.json
+¦       settings.json
+¦       
++---agents
+¦   ¦   analyst_agent.py
+¦   ¦   answer_agent.py
+¦   ¦   base_agent.py
+¦   ¦   code_agent.py
+¦   ¦   critic_agent.py
+¦   ¦   db_agent.py
+¦   ¦   file_agent.py
+¦   ¦   optimizer_agent.py
+¦   ¦   reflection_agent.py
+¦   ¦   reporter_agent.py
+¦   ¦   research_agent.py
+¦   ¦   summarizer_agent.py
+¦   ¦   validator.py
+¦   ¦   
+¦   +---__pycache__
+¦           analyst_agent.cpython-312.pyc
+¦           answer_agent.cpython-312.pyc
+¦           base_agent.cpython-312.pyc
+¦           code_agent.cpython-312.pyc
+¦           critic_agent.cpython-312.pyc
+¦           db_agent.cpython-312.pyc
+¦           file_agent.cpython-312.pyc
+¦           optimizer_agent.cpython-312.pyc
+¦           reflection_agent.cpython-312.pyc
+¦           reporter_agent.cpython-312.pyc
+¦           research_agent.cpython-312.pyc
+¦           summarizer_agent.cpython-312.pyc
+¦           validator.cpython-312.pyc
+¦           
++---backend
+¦       run.py
+¦       
++---data
+¦   +---csv
+¦   ¦       sample_employees.csv
+¦   ¦       
+¦   +---db
+¦   ¦       college.db
+¦   ¦       sales.db
+¦   ¦       
+¦   +---raw
+¦           sample-local-pdf.pdf
+¦           sample_company_report.pdf
+¦           
++---deployment
+¦   ¦   api.py
+¦   ¦   file_manager.py
+¦   ¦   schemas.py
+¦   ¦   services.py
+¦   ¦   
+¦   +---__pycache__
+¦           api.cpython-312.pyc
+¦           file_manager.cpython-312.pyc
+¦           schemas.cpython-312.pyc
+¦           services.cpython-312.pyc
+¦           
++---frontend
+¦   ¦   api_client.py
+¦   ¦   run.py
+¦   ¦   streamlit_app.py
+¦   ¦   
+¦   +---__pycache__
+¦           api_client.cpython-312.pyc
+¦           
++---llm
+¦   ¦   ollama_client.py
+¦   ¦   
+¦   +---__pycache__
+¦           ollama_client.cpython-312.pyc
+¦           
++---logs
+¦       execution.log
+¦       
++---memory
+¦   ¦   embeddings.py
+¦   ¦   faiss.index
+¦   ¦   long_term.db
+¦   ¦   long_term_memory.py
+¦   ¦   memory_manager.py
+¦   ¦   memory_models.py
+¦   ¦   metadata.json
+¦   ¦   session_memory.py
+¦   ¦   summarizer.py
+¦   ¦   vector_store.py
+¦   ¦   __init__.py
+¦   ¦   
+¦   +---__pycache__
+¦           embeddings.cpython-312.pyc
+¦           long_term_memory.cpython-312.pyc
+¦           memory_manager.cpython-312.pyc
+¦           memory_models.cpython-312.pyc
+¦           session_memory.cpython-312.pyc
+¦           summarizer.cpython-312.pyc
+¦           vector_store.cpython-312.pyc
+¦           __init__.cpython-312.pyc
+¦           
++---orchestrator
+¦   ¦   execution_context.py
+¦   ¦   execution_logger.py
+¦   ¦   execution_state.py
+¦   ¦   execution_trace.py
+¦   ¦   orchestrator.py
+¦   ¦   planner.py
+¦   ¦   registry.py
+¦   ¦   router.py
+¦   ¦   task.py
+¦   ¦   
+¦   +---__pycache__
+¦           execution_context.cpython-312.pyc
+¦           execution_logger.cpython-312.pyc
+¦           execution_state.cpython-312.pyc
+¦           execution_trace.cpython-312.pyc
+¦           orchestrator.cpython-312.pyc
+¦           planner.cpython-312.pyc
+¦           registry.cpython-312.pyc
+¦           router.cpython-312.pyc
+¦           task.cpython-312.pyc
+¦           
++---reports
+¦       AGENT-FUNDAMENTALS.md
+¦       
++---tools
+¦   ¦   code_executor.py
+¦   ¦   file_tool.py
+¦   ¦   sqlite_tool.py
+¦   ¦   __init__.py
+¦   ¦   
+¦   +---__pycache__
+¦           code_executor.cpython-312.pyc
+¦           file_tool.cpython-312.pyc
+¦           sqlite_tool.cpython-312.pyc
+¦           __init__.cpython-312.pyc
+¦           
++---__pycache__
+        config.cpython-312.pyc
+        
