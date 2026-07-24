@@ -104,14 +104,7 @@ class BaseAgent:
 
         start = time.perf_counter()
 
-        trace = None
-
-        if execution_context:
-            trace = execution_context.start_agent(
-                agent=self.name,
-                task=user_input,
-                input_data=context,
-            )
+        
 
         if self.event_bus:
             await self.event_bus.publish(
@@ -145,25 +138,14 @@ class BaseAgent:
 
             
             if execution_context:
-
                 execution_context.put(
                     f"{self.name}_output",
                     response,
                 )
 
-                execution_context.finish_agent(trace, response)
-
             return response
 
         except Exception as e:
-
-            if execution_context and trace:
-
-                execution_context.fail_agent(
-                    trace,
-                    str(e),
-                )
-
             raise
 
         finally:

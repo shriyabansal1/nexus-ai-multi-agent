@@ -30,7 +30,18 @@ class Orchestrator:
 
             print("[1] Planning...")
             tasks = await self.planner.plan(goal)
-            print(f"[2] Planner created {len(tasks)} tasks")
+
+            print("\n========== TASKS FROM PLANNER ==========")
+            print(f"Planner created {len(tasks)} task(s)\n")
+
+            for i, t in enumerate(tasks, start=1):
+                print(
+                    f"{i}. "
+                    f"Agent = {t.assigned_agent:<12} | "
+                    f"Task = {t.description}"
+                )
+
+            print("========================================\n")
 
             completed = set()
 

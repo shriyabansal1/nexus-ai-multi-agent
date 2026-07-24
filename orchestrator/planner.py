@@ -31,6 +31,9 @@ class Planner:
             temperature=0.0,
             num_predict=400,
         )
+        print("\n========== RAW PLANNER RESPONSE ==========")
+        print(response)
+        print("==========================================\n")
         try:
 
             response = response.strip()

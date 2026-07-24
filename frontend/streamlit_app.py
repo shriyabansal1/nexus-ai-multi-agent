@@ -97,6 +97,13 @@ with chat_tab:
                     st.subheader("⚙️ Agents Executed")
 
                     trace = execution.get("trace", {}).get("entries", [])
+                    print("\n========== TRACE RECEIVED BY STREAMLIT ==========")
+                    print(f"Total entries: {len(trace)}")
+
+                    for i, entry in enumerate(trace):
+                        print(i + 1, entry["agent"])
+
+                    print("===============================================\n")
 
                     for agent in trace:
 

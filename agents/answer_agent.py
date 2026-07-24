@@ -72,10 +72,6 @@ Your job is formatting only.
         if context:
 
             text = context.strip()
-
-            # -----------------------------
-            # Database
-            # -----------------------------
             if (
                 text.startswith("(")
                 or "INTEGER" in text
