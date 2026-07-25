@@ -35,33 +35,53 @@ class MemoryManager:
         Save an interaction into all memory systems.
         """
 
+        print("\n" + "=" * 70)
+        print("REMEMBER() CALLED")
+        print("=" * 70)
+
         # Store conversation in short-term memory
         self.session_memory.add_interaction(user_input, assistant_response)
 
-        # Keep complete conversation for history/debugging
         conversation = f"User: {user_input}\nAssistant: {assistant_response}"
 
-        # Extract long-term memory ONLY from the user's message
-        summary = await self.summarizer.summarize(user_input)
+        print(f"User Input: {user_input}")
 
-        memory = MemoryRecord(content=conversation, summary=summary)
+        # Extract long-term memory
+        summary = await self.summarizer.summarize(conversation)
 
-        # Don't store empty memories
+        print(f"Summary: {summary}")
+
+        memory = MemoryRecord(
+            content=conversation,
+            summary=summary,
+        )
+
         if self._is_empty_memory(summary):
+            print("❌ Memory rejected because summary is empty.")
             return memory
 
-        # Skip duplicate memories
-        existing = self.vector_store.search(query=summary, k=1)
+        existing = self.vector_store.search(
+            query=summary,
+            k=1,
+        )
+
+        print("Existing:", existing)
 
         if existing and existing[0]["score"] >= 0.75:
-            print(f"Duplicate memory detected (score={existing[0]['score']:.3f}). Skipping save.")
+            print(
+                f"Duplicate memory detected (score={existing[0]['score']:.3f})"
+            )
             return memory
 
-        # Save to long-term storage
+        print("Saving to LongTermMemory...")
         self.long_term_memory.add(memory)
+        print("✓ LongTermMemory saved")
 
-        # Save embedding
+        print("Saving to VectorStore...")
         self.vector_store.add(memory)
+        print("✓ VectorStore saved")
+
+        print("=" * 70)
 
         return memory
 

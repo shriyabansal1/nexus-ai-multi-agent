@@ -1,9 +1,6 @@
 import subprocess
 import sys
-
-
 def main():
-
     subprocess.run(
         [
             sys.executable,
@@ -13,7 +10,6 @@ def main():
             "frontend/streamlit_app.py",
         ]
     )
-
 
 if __name__ == "__main__":
     main()

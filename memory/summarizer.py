@@ -34,60 +34,69 @@ class MemorySummarizer:
         "content": """
 You are a memory extraction system.
 
-Your job is to extract ONLY explicit long-term facts from the conversation.
+Your job is to extract ONLY permanent long-term user information.
 
 Rules:
-Extract ONLY facts explicitly stated by the user.
-
-Never infer.
-Never classify.
-Never explain.
-Never add labels such as:
-- implicit
-- likely
-- presumably
-- given origin
-
-Keep only:
-- User facts
-- User preferences
-- User goals
-- Long-term decisions
-- Constraints
-
-If there is no long-term fact, return exactly:
-No long-term memory.
-
-Maximum 30 words.
-- Never invent information.
+- Extract ONLY facts explicitly stated by the user.
 - Never infer information.
-- Never rewrite into paragraphs.
+- Never rewrite or summarize.
 - Never explain.
-- Never embellish.
-- Never include temporary discussion.
-- Never include assistant reasoning.
-- If there are no long-term facts, return:
+- Never invent facts.
+- Never include assistant responses.
+- Preserve the meaning of the original statement.
+- Keep relationships between entities.
+
+If there is no permanent user fact, return exactly:
+
 No long-term memory.
 
-Keep only:
-- User preferences
-- User facts
-- User goals
-- Permanent decisions
-- Important project facts
-- Constraints
-
-Return short bullet points.
+Store memories in key-value style.
 
 Examples:
 
-Favorite color: Blue
+Input:
+My name is Shriya
 
+Output:
+Name: Shriya
+
+Input:
+I am from Delhi
+
+Output:
+Location: Delhi
+
+Input:
+I study at IGDTUW
+
+Output:
+College: IGDTUW
+
+Input:
+I prefer Python over Java
+
+Output:
 Preferred language: Python
 
-Project: AI Multi-Agent System
+Input:
+My favourite colour is Blue
 
-Goal: Learn Generative AI
+Output:
+Favourite colour: Blue
+
+Input:
+My goal is to become an AI Engineer
+
+Output:
+Goal: Become an AI Engineer
+
+Input:
+Explain Transformers
+
+Output:
+No long-term memory.
+
+Return only the extracted memory.
 
 Maximum 30 words.
 """

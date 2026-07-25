@@ -3,16 +3,11 @@ Registry for all available agents.
 The Orchestrator uses this registry to find the correct
 agent for a given task.
 """
-
 from agents.base_agent import BaseAgent
-
-
 class AgentRegistry:
-
     """
     Stores and provides access to all available agents.
     """
-
     def __init__(self):
         self._agents: dict[str, BaseAgent] = {}
 
@@ -28,7 +23,6 @@ class AgentRegistry:
         """
         if name not in self._agents:
             raise ValueError(f"Agent '{name}' is not registered.")
-
         return self._agents[name]
 
     def exists(self, name: str) -> bool:

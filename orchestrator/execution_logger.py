@@ -1,52 +1,31 @@
-# orchestrator/execution_logger.py
-
 from __future__ import annotations
-
 import logging
 from pathlib import Path
-
-
 class ExecutionLogger:
     """
     Centralized logger used across the NEXUS framework.
-
     Logs are written to both:
     - Console
     - Log file
     """
-
-    def __init__(
-        self,
-        name: str = "NEXUS",
-        log_dir: str = "logs",
-        log_file: str = "execution.log",
-        level: int = logging.INFO,
-    ) -> None:
-
+    def __init__(self,name: str = "NEXUS",log_dir: str = "logs",log_file: str = "execution.log",level: int = logging.INFO,) -> None:
         self.log_dir = Path(log_dir)
         self.log_dir.mkdir(parents=True, exist_ok=True)
-
         self.logger = logging.getLogger(name)
         self.logger.setLevel(level)
-
-        # Avoid duplicate handlers
         if self.logger.handlers:
             return
-
         formatter = logging.Formatter(
             "[%(asctime)s] [%(levelname)s] %(message)s",
             "%Y-%m-%d %H:%M:%S",
         )
-
         file_handler = logging.FileHandler(
             self.log_dir / log_file,
             encoding="utf-8",
         )
         file_handler.setFormatter(formatter)
-
         console_handler = logging.StreamHandler()
         console_handler.setFormatter(formatter)
-
         self.logger.addHandler(file_handler)
         self.logger.addHandler(console_handler)
 

@@ -1,11 +1,8 @@
 """
 Routes tasks to the correct agent.
 """
-
 from orchestrator.task import Task
 from orchestrator.registry import AgentRegistry
-
-
 class Router:
 
     def __init__(self, registry: AgentRegistry):

@@ -51,6 +51,46 @@ class AIService:
         try:
             execution_id = str(uuid.uuid4())
             started = datetime.now()
+            from memory.memory_detector import MemoryDetector
+            if MemoryDetector.is_memory_statement(goal):
+
+                await self.memory_manager.remember(
+                    user_input=goal,
+                    assistant_response="I'll remember that."
+                )
+
+                finished = datetime.now()
+
+                execution = {
+                    "trace": {
+                        "entries": [
+                            {
+                                "agent": "Memory Detector",
+                                "task": "Detect memory statement",
+                                "status": "completed",
+                            },
+                            {
+                                "agent": "Memory Manager",
+                                "task": "Store long-term memory",
+                                "status": "completed",
+                            },
+                        ]
+                    }
+                }
+
+                self.execution_history[execution_id] = {
+                    "goal": goal,
+                    "answer": "I'll remember that.",
+                    "execution": execution,
+                    "started": started.isoformat(),
+                    "finished": finished.isoformat(),
+                }
+
+                return (
+                    execution_id,
+                    "I'll remember that.",
+                    execution,
+                )
             tasks, execution = await self.orchestrator.run(goal)
             finished = datetime.now()
             final_answer = "No answer generated."

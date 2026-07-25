@@ -83,29 +83,7 @@ class Orchestrator:
 
             execution_context.finish_execution(True)
 
-            answer_task = next(
-                (
-                    task
-                    for task in tasks
-                    if task.assigned_agent == "answer"
-                    and task.status == TaskStatus.COMPLETED
-                ),
-                None,
-            )
-
-            if answer_task and answer_task.result:
-
-                answer_agent = self.registry.get("answer")
-
-                if (
-                    answer_agent
-                    and answer_agent.memory_manager
-                ):
-                    await answer_agent.memory_manager.remember(
-                        user_input=goal,
-                        assistant_response=answer_task.result,
-                    )
-
+        
             print("========== ORCHESTRATOR FINISHED ==========\n")
 
             return tasks, execution_context.summary()

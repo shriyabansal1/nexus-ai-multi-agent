@@ -1,17 +1,12 @@
 import json
-
 from config import settings
 from llm.ollama_client import OllamaClient
 from orchestrator.task import Task
-
-
 class Planner:
     """
     Breaks a user's goal into executable tasks.
     """
-
     async def plan(self, goal: str) -> list[Task]:
-
         messages = [
             {
                 "role": "system",
@@ -22,25 +17,17 @@ class Planner:
                 "content": goal,
             },
         ]
-
         print("Planner model:", settings.llm.planner_model)
-
         response = await OllamaClient.chat(
             model=settings.llm.planner_model,
             messages=messages,
             temperature=0.0,
             num_predict=400,
         )
-        print("\n========== RAW PLANNER RESPONSE ==========")
-        print(response)
-        print("==========================================\n")
         try:
-
             response = response.strip()
             response = response.replace("```json", "").replace("```", "").strip()
-
             decoder = json.JSONDecoder()
-
             try:
                 data, _ = decoder.raw_decode(response)
             except json.JSONDecodeError:
@@ -48,7 +35,6 @@ class Planner:
                 print(response)
                 raise
             tasks = []
-
             if isinstance(data, list):
                 items = data
             else:
@@ -60,8 +46,7 @@ class Planner:
                         description=item["description"],
                         assigned_agent=item["agent"],
                     )
-                )
-                
+                )     
             if not tasks:
                 return [
                     Task(
@@ -73,22 +58,18 @@ class Planner:
                 t for t in tasks
                 if t.assigned_agent == "research"
             ]
-
             summarizer = next(
                 (t for t in tasks if t.assigned_agent == "summarizer"),
                 None,
             )
-
             answer = next(
                 (t for t in tasks if t.assigned_agent == "answer"),
                 None,
             )
-
             reflection = next(
                 (t for t in tasks if t.assigned_agent == "reflection"),
                 None,
             )
-
             validator = next(
                 (t for t in tasks if t.assigned_agent == "validator"),
                 None,
@@ -97,45 +78,37 @@ class Planner:
                 (t for t in tasks if t.assigned_agent == "analyst"),
                 None,
             )
-
             critic = next(
                 (t for t in tasks if t.assigned_agent == "critic"),
                 None,
             )
-
             optimizer = next(
                 (t for t in tasks if t.assigned_agent == "optimizer"),
                 None,
             )
-
             reporter = next(
                 (t for t in tasks if t.assigned_agent == "reporter"),
                 None,
             )
-
             specialized = next(
-    (
-        t for t in tasks
-        if t.assigned_agent in {"research", "code", "db", "file"}
-    ),
-    None,
-)
-
+                (
+                    t for t in tasks
+                    if t.assigned_agent in {"research", "code", "db", "file"}
+                ),
+                None,
+            )
             if analyst:
                 analyst.depends_on = [t.id for t in research_tasks]
-
             if summarizer:
                 if analyst:
                     summarizer.depends_on = [analyst.id]
                 else:
                     summarizer.depends_on = [t.id for t in research_tasks]
-
             if answer:
                 if summarizer:
                     answer.depends_on = [summarizer.id]
                 elif specialized:
                     answer.depends_on = [specialized.id]
-
             if critic:
                 if answer:
                     critic.depends_on = [answer.id]
@@ -146,13 +119,11 @@ class Planner:
                     optimizer.depends_on = [critic.id]
                 else:
                     optimizer.depends_on = [answer.id]
-
             if reflection:
                 if optimizer:
                     reflection.depends_on = [optimizer.id]
                 else:
                     reflection.depends_on = [answer.id]
-
             if validator:
                 if reflection:
                     validator.depends_on = [reflection.id]
@@ -160,21 +131,17 @@ class Planner:
                     validator.depends_on = [optimizer.id]
                 elif answer:
                     validator.depends_on = [answer.id]
-
             if reporter:
                 if validator:
                     reporter.depends_on = [validator.id]
                 else:
                     raise ValueError("Reporter task requires a Validator task.")
-
             return tasks
 
         except Exception as e:
-
             print("\nPlanner failed to parse JSON.")
             print(response)
             print(e)
-
             return [
                 Task(
                     description=f"Research information about: {goal}",

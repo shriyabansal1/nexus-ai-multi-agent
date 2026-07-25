@@ -35,8 +35,8 @@ class BaseAgent:
         memory_context = ""
 
         should_retrieve = (
-            self.name == "Research Agent"
-            and context is None
+            context is None
+            and self.memory_manager is not None
         )
 
         if self.memory_manager and should_retrieve:
