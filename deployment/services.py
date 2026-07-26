@@ -53,14 +53,11 @@ class AIService:
             started = datetime.now()
             from memory.memory_detector import MemoryDetector
             if MemoryDetector.is_memory_statement(goal):
-
                 await self.memory_manager.remember(
                     user_input=goal,
                     assistant_response="I'll remember that."
                 )
-
                 finished = datetime.now()
-
                 execution = {
                     "trace": {
                         "entries": [
@@ -141,6 +138,5 @@ class AIService:
         return {
             "status": "healthy"
         }
-
 
 service = AIService()

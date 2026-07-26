@@ -1,22 +1,16 @@
 from __future__ import annotations
-
 from typing import Any
-
 from orchestrator.execution_logger import ExecutionLogger
 from orchestrator.execution_state import ExecutionState
 from orchestrator.execution_trace import ExecutionTrace
 
-
 class ExecutionContext:
     """
     Shared execution context for a single NEXUS run.
-
     Every component (Planner, Orchestrator, Agents, Tools)
     receives the same ExecutionContext instance.
-
     It acts as the communication layer between all modules.
     """
-
     def __init__(self, goal: str) -> None:
         self.state = ExecutionState(goal)
         self.trace = ExecutionTrace()
@@ -42,7 +36,6 @@ class ExecutionContext:
         """
         self.state.finish(success)
         duration = self.state.duration or 0.0
-
         if success:
             self.logger.execution_completed(duration)
         else:
@@ -61,21 +54,17 @@ class ExecutionContext:
         Starts tracing an agent execution.
         """
         self.set_current_agent(agent)
-
         self.logger.agent_started(agent, task)
-
         return self.trace.start(
             agent=agent,
             task=task,
             input_data=input_data,
         )
-
     def finish_agent(self, trace_entry, output_data: Any = None) -> None:
         """
         Marks an agent execution as successful.
         """
         trace_entry.finish(output_data)
-
         self.logger.agent_completed(
             trace_entry.agent,
             trace_entry.duration or 0.0,
@@ -86,9 +75,7 @@ class ExecutionContext:
         Marks an agent execution as failed.
         """
         trace_entry.fail(error)
-
         self.state.error = error
-
         self.logger.agent_failed(
             trace_entry.agent,
             error,
@@ -105,19 +92,6 @@ class ExecutionContext:
         Retrieves shared data.
         """
         return self.state.get(key, default)
-
-    def increment_retry(self) -> None:
-        """
-        Increments retry counter.
-        """
-        self.state.increment_retry()
-
-    def increment_replan(self) -> None:
-        """
-        Increments replan counter.
-        """
-        self.state.increment_replan()
-
     def summary(self) -> dict[str, Any]:
         """
         Returns an overall execution summary.
@@ -126,8 +100,6 @@ class ExecutionContext:
             "goal": self.goal,
             "success": self.state.success,
             "duration": self.state.duration,
-            "retry_count": self.state.retry_count,
-            "replan_count": self.state.replan_count,
             "completed_tasks": self.state.total_completed,
             "failed_tasks": self.state.total_failed,
             "trace": self.trace.summary(),

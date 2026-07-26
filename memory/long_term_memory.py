@@ -1,29 +1,18 @@
 from __future__ import annotations
-
 import sqlite3
 from pathlib import Path
-
 from memory.memory_models import MemoryRecord
-
-
 class LongTermMemory:
     """
     Persistent memory stored in SQLite.
-
     Responsible only for database operations.
     """
-
-    def __init__(
-        self,
-        database_path: str = "memory/long_term.db",
-    ):
+    def __init__(self,database_path: str = "memory/long_term.db",):
         self.database_path = Path(database_path)
-
         self.database_path.parent.mkdir(
             parents=True,
             exist_ok=True,
         )
-
         self._initialize()
 
     def _connect(self) -> sqlite3.Connection:
@@ -31,10 +20,8 @@ class LongTermMemory:
 
     def _initialize(self) -> None:
         connection = self._connect()
-
         try:
             cursor = connection.cursor()
-
             cursor.execute(
                 """
                 CREATE TABLE IF NOT EXISTS memories (
@@ -46,21 +33,14 @@ class LongTermMemory:
                 );
                 """
             )
-
             connection.commit()
-
         finally:
             connection.close()
 
-    def add(
-        self,
-        memory: MemoryRecord,
-    ) -> None:
+    def add(self,memory: MemoryRecord,) -> None:
         connection = self._connect()
-
         try:
             cursor = connection.cursor()
-
             cursor.execute(
                 """
                 INSERT OR REPLACE INTO memories (
@@ -80,21 +60,14 @@ class LongTermMemory:
                     memory.created_at,
                 ),
             )
-
             connection.commit()
-
         finally:
             connection.close()
 
-    def get(
-        self,
-        memory_id: str,
-    ) -> MemoryRecord | None:
+    def get(self,memory_id: str,) -> MemoryRecord | None:
         connection = self._connect()
-
         try:
             cursor = connection.cursor()
-
             cursor.execute(
                 """
                 SELECT
@@ -108,12 +81,9 @@ class LongTermMemory:
                 """,
                 (memory_id,),
             )
-
             row = cursor.fetchone()
-
             if row is None:
                 return None
-
             return MemoryRecord(
                 id=row[0],
                 content=row[1],
@@ -121,16 +91,13 @@ class LongTermMemory:
                 metadata={},
                 created_at=row[4],
             )
-
         finally:
             connection.close()
 
     def all(self) -> list[MemoryRecord]:
         connection = self._connect()
-
         try:
             cursor = connection.cursor()
-
             cursor.execute(
                 """
                 SELECT
@@ -143,9 +110,7 @@ class LongTermMemory:
                 ORDER BY created_at DESC;
                 """
             )
-
             rows = cursor.fetchall()
-
             return [
                 MemoryRecord(
                     id=row[0],
@@ -160,15 +125,10 @@ class LongTermMemory:
         finally:
             connection.close()
 
-    def delete(
-        self,
-        memory_id: str,
-    ) -> None:
+    def delete(self,memory_id: str,) -> None:
         connection = self._connect()
-
         try:
             cursor = connection.cursor()
-
             cursor.execute(
                 """
                 DELETE FROM memories
@@ -176,26 +136,20 @@ class LongTermMemory:
                 """,
                 (memory_id,),
             )
-
             connection.commit()
-
         finally:
             connection.close()
 
     def count(self) -> int:
         connection = self._connect()
-
         try:
             cursor = connection.cursor()
-
             cursor.execute(
                 """
                 SELECT COUNT(*)
                 FROM memories;
                 """
             )
-
             return cursor.fetchone()[0]
-
         finally:
             connection.close()

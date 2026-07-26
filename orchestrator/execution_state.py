@@ -4,36 +4,26 @@ from datetime import datetime
 from typing import Any
 from uuid import UUID
 
-
 @dataclass
 class ExecutionState:
     """
     Stores the shared state of a single NEXUS execution.
-
     Every agent can access this object through the
     ExecutionContext. It serves as the single source
     of truth during orchestration.
     """
-
     goal: str
-
     created_at: datetime = field(default_factory=datetime.utcnow)
-
     started_at: datetime | None = None
     finished_at: datetime | None = None
-
     current_agent: str | None = None
-
     completed_tasks: set[UUID] = field(default_factory=set)
     failed_tasks: set[UUID] = field(default_factory=set)
     cancelled_tasks: set[UUID] = field(default_factory=set)
-
     shared_data: dict[str, Any] = field(default_factory=dict)
     metadata: dict[str, Any] = field(default_factory=dict)
-
     retry_count: int = 0
     replan_count: int = 0
-
     success: bool = False
     error: str | None = None
 
@@ -97,6 +87,5 @@ class ExecutionState:
         """
         if self.started_at is None:
             return None
-
         end_time = self.finished_at or datetime.utcnow()
         return (end_time - self.started_at).total_seconds()
